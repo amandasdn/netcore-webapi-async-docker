@@ -5,6 +5,7 @@ using Dapper;
 using System.Data.SqlClient;
 using System.Data;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace Blog.Infra.Data.Repositories
 {
@@ -41,6 +42,25 @@ namespace Blog.Infra.Data.Repositories
             _logger.LogInformation("[CommentRepository.Get] Comment count: {0}", comments.Count());
 
             return comments;
+        }
+
+        public void Insert(CommentEntity comment)
+        {
+            _logger.LogInformation("[CommentRepository.Insert] Data: {0}", JsonSerializer.Serialize(comment));
+
+            var currentDateTime = TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo"));
+
+            var prm = new DynamicParameters();
+            prm.Add("@id_comment", comment.IdComment);
+            prm.Add("@content", comment.Content);
+            prm.Add("@author", comment.Author);
+            prm.Add("@createdAt", comment.CreatedAt);
+            prm.Add("@storedAt", currentDateTime);
+
+            using (var con = new SqlConnection(_connectionString))
+            {
+                con.Execute("spr_InsertComment", prm, commandType: CommandType.StoredProcedure);
+            };
         }
     }
 }

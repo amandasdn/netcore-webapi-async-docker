@@ -10,7 +10,8 @@ BEGIN
 		IdComment UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
 		Content VARCHAR(500) NOT NULL,
 		Author VARCHAR(100) NOT NULL,
-		CreatedAt DATETIME NOT NULL
+		CreatedAt DATETIME NOT NULL,
+		StoredAt DATETIME NULL
 	);
 	
 	PRINT ('Table [tb_Comment] successfully created.')

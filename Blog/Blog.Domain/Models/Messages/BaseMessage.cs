@@ -2,7 +2,13 @@
 {
     public class BaseMessage
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public BaseMessage()
+        {
+            Id = Guid.NewGuid();
+            CreatedAt = TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo"));
+        }
+
+        public Guid Id { get; set; } 
+        public DateTimeOffset CreatedAt { get; set; }
     }
 }

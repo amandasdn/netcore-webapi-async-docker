@@ -3,7 +3,7 @@ using Blog.Application.Helpers;
 using Blog.Application.Interfaces;
 using Blog.Domain.Interfaces.Integration;
 using Blog.Domain.Interfaces.Repositories;
-using Microsoft.Extensions.Configuration;
+using Blog.Domain.Models.Messages;
 using Microsoft.Extensions.Logging;
 
 namespace Blog.Application.Services
@@ -36,7 +36,7 @@ namespace Blog.Application.Services
 
         public void SendComment(CommentRequestDTO request)
         {
-            var comment = new CommentMessageDTO(request.Content, request.Author);
+            var comment = new CommentMessage(request.Content, request.Author);
 
             _logger.LogInformation("[CommentService.SendComment] Comment: {0}", comment.ToJsonString());
 

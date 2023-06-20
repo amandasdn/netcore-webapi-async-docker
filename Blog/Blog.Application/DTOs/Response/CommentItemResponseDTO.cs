@@ -7,7 +7,7 @@ namespace Blog.Application.DTOs
     /// </summary>
     public class CommentItemResponseDTO
     {
-        public CommentItemResponseDTO(string content, string author, DateTime timestamp)
+        public CommentItemResponseDTO(string content, string author, DateTimeOffset timestamp)
         {
             Content = content;
             Author = author;
@@ -30,6 +30,6 @@ namespace Blog.Application.DTOs
         /// Date and time of a comment.
         /// </summary>
         [JsonPropertyName("timestamp")]
-        public DateTime Timestamp { get; private set; }
+        public DateTimeOffset Timestamp { get; private set; }
     }
 }

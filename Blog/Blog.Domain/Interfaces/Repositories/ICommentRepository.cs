@@ -11,5 +11,11 @@ namespace Blog.Domain.Interfaces.Repositories
         /// <param name="page_number">Number of the current page</param>
         /// <param name="author">Filter comments by author name</param>
         Task<IEnumerable<CommentEntity>> Get(int page_size, int page_number, string? author);
+
+        /// <summary>
+        /// Save comment data to the database.
+        /// </summary>
+        /// <param name="comment">Data of comment entity</param>
+        void Insert(CommentEntity comment);
     }
 }

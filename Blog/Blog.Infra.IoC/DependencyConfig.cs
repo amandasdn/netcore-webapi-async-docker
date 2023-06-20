@@ -13,10 +13,12 @@ namespace Blog.Infra.IoC
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.TryAddScoped<ICommentRepository, CommentRepository>();
+            services.TryAddSingleton<ICommentRepository, CommentRepository>();
             services.TryAddScoped<ICommentService, CommentService>();
 
-            services.AddSingleton<IMessageSender, MessageSender>();
+            services.TryAddSingleton<IMessageSender, MessageSender>();
+
+            services.AddHostedService<CommentMessageConsumer>();
 
             return services;
         }

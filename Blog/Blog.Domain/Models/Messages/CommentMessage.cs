@@ -1,13 +1,11 @@
-﻿using Blog.Domain.Models.Messages;
-
-namespace Blog.Application.DTOs
+﻿namespace Blog.Domain.Models.Messages
 {
     /// <summary>
-    /// DTO for sending message to RabbitMQ
+    /// Model for sending message to RabbitMQ
     /// </summary>
-    public class CommentMessageDTO : BaseMessage
+    public class CommentMessage : BaseMessage
     {
-        public CommentMessageDTO(string content, string author)
+        public CommentMessage(string content, string author)
         {
             Content = content;
             Author = author;
