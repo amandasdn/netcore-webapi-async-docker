@@ -19,11 +19,11 @@ namespace Blog.Infra.Data.Repositories
             _connectionString = configuration.GetConnectionString("db_Blog") ?? throw new NullReferenceException("Connection 'db_Blog' not found.");
         }
 
-        public async Task<IEnumerable<Comment>> Get(int page_size, int page_number, string? author)
+        public async Task<IEnumerable<CommentEntity>> Get(int page_size, int page_number, string? author)
         {
             _logger.LogInformation("[CommentRepository.Get] Page size: {0}, Page number: {1}, Author: {2}", page_size, page_number, author ?? "-");
 
-            IEnumerable<Comment> comments;
+            IEnumerable<CommentEntity> comments;
 
             var prm = new DynamicParameters();
             prm.Add("@author", author);
@@ -32,7 +32,7 @@ namespace Blog.Infra.Data.Repositories
 
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = await con.QueryAsync<Comment>("spr_GetComments",
+                var result = await con.QueryAsync<CommentEntity>("spr_GetComments",
                     prm, commandType: CommandType.StoredProcedure);
 
                 comments = result;

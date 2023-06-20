@@ -14,18 +14,18 @@ namespace Blog.Domain.Models
         public bool Success { get; private set; } = true;
 
         [JsonPropertyOrder(4), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public List<string> Errors { get; private set; }
+        public List<string>? Errors { get; private set; }
 
         public void AddErrorMessage(string error)
         {
             InitError();
-            Errors.Add(error);
+            Errors?.Add(error);
         }
 
         public void AddErrorMessage(List<string> errors)
         {
             InitError();
-            Errors.AddRange(errors);
+            Errors?.AddRange(errors);
         }
 
         private void InitError()

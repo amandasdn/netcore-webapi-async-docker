@@ -1,6 +1,9 @@
 ﻿using Blog.Application.DTOs;
+using Blog.Application.Helpers;
 using Blog.Application.Interfaces;
+using Blog.Domain.Interfaces.Integration;
 using Blog.Domain.Interfaces.Repositories;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Blog.Application.Services
@@ -9,11 +12,13 @@ namespace Blog.Application.Services
     {
         private readonly ILogger<CommentService> _logger;
         private readonly ICommentRepository _commentRepository;
+        private readonly IMessageSender _messageSender;
 
-        public CommentService(ILogger<CommentService> logger, ICommentRepository commentRepository)
+        public CommentService(ILogger<CommentService> logger, ICommentRepository commentRepository, IMessageSender messageSender)
         {
             _logger = logger;
             _commentRepository = commentRepository;
+            _messageSender = messageSender;
         }
 
         public async Task<CommentResponseDTO> GetComment(int page_size, int page_number, string? author)
@@ -27,6 +32,17 @@ namespace Blog.Application.Services
             comments.AddItems(result);
 
             return comments;
+        }
+
+        public void SendComment(CommentRequestDTO request)
+        {
+            var comment = new CommentMessageDTO(request.Content, request.Author);
+
+            _logger.LogInformation("[CommentService.SendComment] Comment: {0}", comment.ToJsonString());
+
+            var messageBytes = comment.ToByteArray();
+
+            _messageSender.SendMessage(messageBytes, "Comments");
         }
     }
 }

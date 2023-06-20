@@ -43,7 +43,7 @@ namespace Blog.Application.DTOs
         /// <summary>
         /// Entities into CommentItem DTO and add to list.
         /// </summary>
-        public void AddItems(IEnumerable<Comment> entities)
+        public void AddItems(IEnumerable<CommentEntity> entities)
         {
             if (entities == null || !entities.Any()) return;
 
