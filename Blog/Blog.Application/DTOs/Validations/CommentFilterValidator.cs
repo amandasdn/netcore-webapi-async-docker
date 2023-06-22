@@ -11,11 +11,13 @@ namespace Blog.Application.DTOs.Validations
         {
             // PageSize is required and should be greater than 0
             RuleFor(x => x.PageSize)
+                .NotNull()
                 .GreaterThan(0)
                 .WithMessage($"The field {nameof(CommentFilterRequestDTO.PageSize)} should be greater than 0.");
 
             // PageNumber is required and should be greater than 0
             RuleFor(x => x.PageNumber)
+                .NotNull()
                 .GreaterThan(0)
                 .WithMessage($"The field {nameof(CommentFilterRequestDTO.PageNumber)} should be greater than 0.");
         }

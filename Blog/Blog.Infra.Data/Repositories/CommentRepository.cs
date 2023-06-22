@@ -20,7 +20,7 @@ namespace Blog.Infra.Data.Repositories
             _connectionString = configuration.GetConnectionString("db_Blog") ?? throw new NullReferenceException("Connection 'db_Blog' not found.");
         }
 
-        public async Task<IEnumerable<CommentEntity>> Get(int page_size, int page_number, string? author)
+        public async Task<IEnumerable<CommentEntity>> Get(int page_size, int page_number, string? author = null)
         {
             _logger.LogInformation("[CommentRepository.Get] Page size: {0}, Page number: {1}, Author: {2}", page_size, page_number, author ?? "-");
 
