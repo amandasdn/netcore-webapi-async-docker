@@ -27,24 +27,35 @@ namespace Blog.Infra.Data.Messages
 
             CreateConnection();
 
-            _channel = _connection.CreateModel();
-            _channel.QueueDeclare(queue: GetQueueName("Comments"), false, false, false, arguments: null);
+            if (_connection != null)
+            {
+                _channel = _connection.CreateModel();
+                _channel.QueueDeclare(queue: GetQueueName("Comments"), false, false, false, arguments: null);
+            }
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            stoppingToken.ThrowIfCancellationRequested();
-            var consumer = new EventingBasicConsumer(_channel);
-            consumer.Received += (chanel, evt) =>
+            try
             {
-                var content = Encoding.UTF8.GetString(evt.Body.ToArray());
-                var obj = JsonSerializer.Deserialize<CommentMessage>(content);
+                stoppingToken.ThrowIfCancellationRequested();
+                var consumer = new EventingBasicConsumer(_channel);
+                consumer.Received += (chanel, evt) =>
+                {
+                    var content = Encoding.UTF8.GetString(evt.Body.ToArray());
+                    var obj = JsonSerializer.Deserialize<CommentMessage>(content);
                 
-                SaveData(obj).GetAwaiter().GetResult();
+                    SaveData(obj).GetAwaiter().GetResult();
                 
-                _channel.BasicAck(evt.DeliveryTag, false);
-            };
-            _channel.BasicConsume(GetQueueName("Comments"), false, consumer);
+                    _channel.BasicAck(evt.DeliveryTag, false);
+                };
+                _channel.BasicConsume(GetQueueName("Comments"), false, consumer);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("[CommentMessageConsumer.ExecuteAsync] Error: {0}", ex.Message);
+            }
+
             return Task.CompletedTask;
         }
 
@@ -66,7 +77,6 @@ namespace Blog.Infra.Data.Messages
             catch (Exception ex)
             {
                 _logger.LogError("[CommentMessageConsumer.CreateConnection] Error: {0}", ex.Message);
-                throw;
             }
         }
 
@@ -90,7 +100,6 @@ namespace Blog.Infra.Data.Messages
             catch (Exception ex)
             {
                 _logger.LogError("[CommentMessageConsumer.SaveData] Error: {0}, Data: {1}", ex.Message, JsonSerializer.Serialize(obj));
-                throw;
             }
         }
     }

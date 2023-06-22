@@ -11,11 +11,11 @@ builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttri
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api Key Auth", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Blog.WebUI", Version = "v1" });
 
     c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
     {
-        Description = "For tests, please set the key: 8c27c7d4-9e7b-420c-a5c8-dcf78c731baf",
+        Description = "For testing in a development environment, please set the key: 8c27c7d4-9e7b-420c-a5c8-dcf78c731baf",
         Type = SecuritySchemeType.ApiKey,
         Name = "api_blog_key",
         In = ParameterLocation.Header,
@@ -46,12 +46,22 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseRouting();
+
 app.UseMiddleware<ApiKeyMiddleware>();
 
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGet("/", async context =>
+    {
+        context.Response.Redirect("swagger");
+    });
+});
 
 app.MapControllers();
 
