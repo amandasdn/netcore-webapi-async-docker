@@ -59,7 +59,7 @@ In the repository folder `...\netcore-webapi-async-docker\Blog`, run the followi
 docker-compose up -d
 ```
 
-The database and the RabbitMQ will be created. And then, you can run the web API in the browser.
+The database (MS SQL Server) and the message broker (RabbitMQ) will be created. And then, you can run the web API in the browser.
 
 ```
 http://localhost:8081/swagger/index.html
