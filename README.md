@@ -16,10 +16,33 @@ The following tools and technologies were used:
 - Unit tests;
 - Integration tests.
 
-![image](https://github.com/amandasdn/netcore-webapi-async-docker/assets/47601336/47106aeb-e825-4d6a-8acf-1410da2c7ccb)
-
 ## Status
 ![](https://img.shields.io/github/last-commit/amandasdn/netcore-webapi-async-docker)
+
+## Web UI
+![image](https://github.com/amandasdn/netcore-webapi-async-docker/assets/47601336/47106aeb-e825-4d6a-8acf-1410da2c7ccb)
+
+There are 2 endpoints in this API.
+
+### GET: Comment
+Search for all the comments that are stored in SQL. There are some filters as query parameters such as page_size, page_number, and author. The content will be presented with pagination from the selected filter.
+
+### POST: Comment
+Send a comment content to a queue in RabbitMQ. Later, asynchronously, this content will be sent to a table in SQL.
+
+## Architecture
+
+### Domain
+This will contain all entities, models, interfaces and logic specific to the Domain layer.
+
+### Application
+This layer contains all application logic. It is only dependent on the Domain layer. This layer defines interfaces that are implemented by outside layers. For example, all the methods that are called on the controllers.
+
+### Infrastructure
+This layer is divided into 2 parts: Data and IoC. The Data layer is dependent on the Domain layer and contains classes for accessing external resources such as databases, web services, and message senders. The IoC (Inversion of Control) layer is dependent on both the Domain and Infrastructure Data layers and contains classes for project configuration, such as managing dependencies and middlewares. 
+
+### WebUI
+This layer contains all the endpoints that composed the web API. This layer is only dependent on the Infrastructure IoC layer. 
 
 ## Running and testing
 
@@ -37,7 +60,7 @@ In the repository folder `...\netcore-webapi-async-docker\Blog`, run the followi
 docker-compose up -d
 ```
 
-And then, you can run the web API in the browser.
+The database and the RabbitMQ will be created. And then, you can run the web API in the browser.
 
 ```
 http://localhost:8081/swagger/index.html
