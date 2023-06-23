@@ -19,13 +19,15 @@ The following tools and technologies were used:
 ## Web UI
 ![image](https://github.com/amandasdn/netcore-webapi-async-docker/assets/47601336/47106aeb-e825-4d6a-8acf-1410da2c7ccb)
 
-There are 2 endpoints in this API.
+There are 2 endpoints in this API protected by a API key.
 
 ### GET: Comment
 Search for all the comments that are stored in SQL. There are some filters as query parameters such as page_size, page_number, and author. The content will be presented with pagination from the selected filter.
 
 ### POST: Comment
 Send a comment content to a queue in RabbitMQ. Later, asynchronously, this content will be sent to a table in SQL.
+
+⚠ Remind: before request any endpoint, press the button "Authorize" and set the API key value.
 
 ## Architecture
 
