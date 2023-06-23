@@ -5,9 +5,9 @@ namespace Blog.Domain.Models
     public abstract class AResult
     {
         [JsonPropertyOrder(1)]
-        public DateTime ExecutionDate
+        public DateTimeOffset ExecutionDate
         {
-            get => DateTime.UtcNow;
+            get => TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo"));
         }
 
         [JsonPropertyOrder(2)]
