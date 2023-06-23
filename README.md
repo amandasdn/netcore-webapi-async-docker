@@ -16,9 +16,6 @@ The following tools and technologies were used:
 - Unit tests;
 - Integration tests.
 
-## Status
-![](https://img.shields.io/github/last-commit/amandasdn/netcore-webapi-async-docker)
-
 ## Web UI
 ![image](https://github.com/amandasdn/netcore-webapi-async-docker/assets/47601336/47106aeb-e825-4d6a-8acf-1410da2c7ccb)
 
