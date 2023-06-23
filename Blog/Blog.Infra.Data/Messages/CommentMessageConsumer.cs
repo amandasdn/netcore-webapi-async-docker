@@ -27,11 +27,8 @@ namespace Blog.Infra.Data.Messages
 
             CreateConnection();
 
-            if (_connection != null)
-            {
-                _channel = _connection.CreateModel();
-                _channel.QueueDeclare(queue: GetQueueName("Comments"), false, false, false, arguments: null);
-            }
+            _channel = _connection.CreateModel();
+            _channel.QueueDeclare(queue: GetQueueName("Comments"), false, false, false, arguments: null);
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
