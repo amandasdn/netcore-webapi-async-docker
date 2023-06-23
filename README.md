@@ -9,7 +9,7 @@ The following tools and technologies were used:
 - Clean Architecture;
 - API REST;
 - Swagger UI;
-- MS SQL Server;
+- MS SQL Server 2019 Express;
 - Dapper;
 - RabbitMQ;
 - Docker;
